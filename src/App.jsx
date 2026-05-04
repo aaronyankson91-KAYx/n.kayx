@@ -101,17 +101,20 @@ body {
 .logo {
   font-family: 'Cormorant Garamond', serif; font-feature-settings: 'kern' 1, 'liga' 1;
   font-size: 20px; font-weight: 900; letter-spacing: .06em;
-  color: #111; text-decoration: none;
+  color: #fafaf9; text-decoration: none;
   display: flex; align-items: center; gap: 2px;
+  transition: color .3s;
 }
+.nav.solid .logo { color: #111; }
 .logo-k { font-style: italic; color: ${GOLD}; }
 .nav-links { display: flex; gap: 38px; list-style: none; }
 .nav-links a {
   font-size: 10px; font-weight: 700;
   letter-spacing: .22em; text-transform: uppercase;
-  color: #666; text-decoration: none; transition: color .2s;
+  color: rgba(244,242,238,.7); text-decoration: none; transition: color .2s;
   position: relative;
 }
+.nav.solid .nav-links a { color: #666; }
 .nav-links a::after {
   content: ''; position: absolute; bottom: -4px; left: 0;
   width: 0; height: 1px; background: ${GOLD}; transition: width .3s;
@@ -127,27 +130,56 @@ body {
 
 /* ── HERO ────────────────────────────────────────────────────── */
 .hero {
-  min-height: 100vh; background: #f5f4f2;
+  min-height: 100vh; background: #111;
   display: flex; align-items: stretch;
   position: relative; overflow: hidden;
+  animation: heroFadeIn 1.8s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+/* Background photo collage */
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+.hero-bg-photo {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: grayscale(10%) contrast(1.05) brightness(0.45);
+}
+.hero-bg-photo-2 {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: grayscale(10%) contrast(1.05) brightness(0.4);
+}
+/* Dark gradient overlay to make text readable */
+.hero-bg-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(to right, rgba(10,10,10,.82) 0%, rgba(10,10,10,.45) 50%, rgba(10,10,10,.65) 100%),
+    linear-gradient(to top, rgba(10,10,10,.9) 0%, transparent 40%);
 }
 .hero-grid {
-  position: absolute; inset: 0;
+  position: absolute; inset: 0; z-index: 1;
   background-image:
-    linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.012) 1px, transparent 1px);
   background-size: 64px 64px;
 }
 .hero-glow {
   position: absolute; width: 700px; height: 700px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(150,150,150,.13) 0%, transparent 68%);
-  top: -150px; right: -150px;
+  background: radial-gradient(circle, rgba(150,150,150,.09) 0%, transparent 68%);
+  top: -150px; right: -150px; z-index: 1;
   animation: glowDrift 9s ease-in-out infinite;
 }
 .hero-glow2 {
   position: absolute; width: 400px; height: 400px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(150,150,150,.07) 0%, transparent 70%);
-  bottom: 80px; left: -100px;
+  background: radial-gradient(circle, rgba(150,150,150,.05) 0%, transparent 70%);
+  bottom: 80px; left: -100px; z-index: 1;
   animation: glowDrift 13s ease-in-out infinite reverse;
 }
 @keyframes glowDrift {
@@ -156,41 +188,16 @@ body {
 }
 .hero-content {
   position: relative; z-index: 2;
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-  width: 100%; min-height: 100vh;
+  display: flex; width: 100%; min-height: 100vh;
+  align-items: flex-end;
 }
 .hero-left {
   display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 0 48px 90px;
+  padding: 0 64px 90px; width: 100%;
 }
-.hero-right {
-  position: relative; overflow: hidden;
-}
-.hero-right-2 {
-  position: relative; overflow: hidden;
-}
-.hero-photo {
-  width: 100%; height: 100%; object-fit: cover;
-  object-position: center top;
-  display: block;
-  filter: grayscale(8%) contrast(1.02);
-}
-.hero-photo-2 {
-  width: 100%; height: 100%; object-fit: cover;
-  object-position: center top;
-  display: block;
-}
-.hero-photo-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to right, #f5f4f2 0%, transparent 22%),
-              linear-gradient(to top, #f5f4f2 0%, transparent 12%);
-}
-.hero-photo-overlay-2 {
-  position: absolute; inset: 0;
-  background: linear-gradient(to left, #f5f4f2 0%, transparent 22%),
-              linear-gradient(to top, #f5f4f2 0%, transparent 12%);
-}
-.hero-photos-mobile { display: contents; }
+/* Remove old side-by-side photo columns — photos now live in .hero-bg */
+.hero-right, .hero-right-2, .hero-photo-overlay, .hero-photo-overlay-2 { display: none; }
+.hero-photos-mobile { display: none; }
 .hero-eyebrow {
   font-size: 10px; font-weight: 700; letter-spacing: .55em; text-transform: uppercase;
   color: ${GOLD}; margin-bottom: 22px;
@@ -201,12 +208,12 @@ body {
 .hero-h1 {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(72px,12vw,190px);
-  line-height: .9; letter-spacing: .03em; color: #111111;
+  line-height: .9; letter-spacing: .03em; color: #f5f4f2;
   margin-bottom: 36px;
   animation: fadeUp .9s .15s cubic-bezier(.16,1,.3,1) both;
 }
 .hero-h1 .outline {
-  -webkit-text-stroke: 1.5px rgba(244,242,238,.2);
+  -webkit-text-stroke: 2px rgba(244,242,238,.55);
   color: transparent;
 }
 .hero-h1 .gold { color: ${GOLD}; }
@@ -217,9 +224,9 @@ body {
 }
 .hero-desc {
   font-size: 15px; font-weight: 300;
-  color: rgba(244,242,238,.55); line-height: 1.85; max-width: 420px;
+  color: rgba(244,242,238,.75); line-height: 1.85; max-width: 420px;
 }
-.hero-desc strong { color: rgba(244,242,238,.85); font-weight: 500; }
+.hero-desc strong { color: rgba(244,242,238,.95); font-weight: 500; }
 .hero-btns { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
 .btn-gold {
   font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
@@ -231,11 +238,11 @@ body {
 .btn-gold:hover { background: ${GOLD2}; transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,.13); }
 .btn-ghost {
   font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
-  background: transparent; color: rgba(100,100,100,.6);
-  padding: 14px 30px; border: 1px solid rgba(244,242,238,.18);
+  background: transparent; color: rgba(244,242,238,.7);
+  padding: 14px 30px; border: 1px solid rgba(244,242,238,.35);
   cursor: pointer; text-decoration: none; transition: all .2s;
 }
-.btn-ghost:hover { border-color: rgba(100,100,100,.6); color: #111; }
+.btn-ghost:hover { border-color: rgba(244,242,238,.8); color: #fff; background: rgba(255,255,255,.08); }
 .hero-stats {
   display: flex; gap: 52px; flex-wrap: wrap;
   animation: fadeUp .9s .45s cubic-bezier(.16,1,.3,1) both;
@@ -243,18 +250,18 @@ body {
 }
 .sv {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 44px; font-weight: 900; color: #333333; line-height: 1;
+  font-size: 44px; font-weight: 900; color: #f0ede8; line-height: 1;
 }
 .sv em { font-style: normal; color: ${GOLD}; }
 .sl {
   font-size: 10px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
-  color: rgba(244,242,238,.35); margin-top: 5px;
+  color: rgba(244,242,238,.5); margin-top: 5px;
 }
 .hero-scroll {
   position: absolute; bottom: 36px; right: 64px; z-index: 3;
   display: flex; flex-direction: column; align-items: center; gap: 10px;
   font-size: 9px; font-weight: 700; letter-spacing: .35em; text-transform: uppercase;
-  color: rgba(244,242,238,.3);
+  color: rgba(244,242,238,.45);
 }
 .hero-scroll-bar {
   width: 1px; height: 56px;
@@ -287,36 +294,16 @@ body {
 }
 .ti span { color: ${GOLD}; font-size: 16px; }
 @media (max-width: 768px) {
-  .hero-content {
-    grid-template-columns: 1fr;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  .hero-photos-mobile {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: 56vw;
-    min-height: 240px;
-    flex-shrink: 0;
-  }
   .hero-left {
-    flex: 1;
-    padding: 36px 24px 56px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    padding: 36px 24px 72px;
   }
-  .hero-right, .hero-right-2 {
-    height: 100%;
+  .hero-bg {
+    grid-template-columns: 1fr 1fr;
   }
-  .hero-photo-overlay {
-    background: linear-gradient(to right, transparent 60%, #f5f4f2 100%),
-                linear-gradient(to bottom, rgba(245,244,242,.3) 0%, transparent 20%);
-  }
-  .hero-photo-overlay-2 {
-    background: linear-gradient(to left, transparent 60%, #f5f4f2 100%),
-                linear-gradient(to bottom, rgba(245,244,242,.3) 0%, transparent 20%);
+  .hero-bg-overlay {
+    background:
+      linear-gradient(to right, rgba(10,10,10,.75) 0%, rgba(10,10,10,.55) 100%),
+      linear-gradient(to top, rgba(10,10,10,.92) 0%, transparent 45%);
   }
 }
 @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -783,6 +770,12 @@ export default function App() {
 
       {/* ── HERO ── */}
       <section className="hero" id="home">
+        {/* Background photos behind all content */}
+        <div className="hero-bg">
+          <img src={kayxPhoto}  className="hero-bg-photo"   alt="" aria-hidden="true" />
+          <img src={kayxPhoto2} className="hero-bg-photo-2" alt="" aria-hidden="true" />
+        </div>
+        <div className="hero-bg-overlay" />
         <div className="hero-grid" />
         <div className="hero-glow" />
         <div className="hero-glow2" />
@@ -816,24 +809,6 @@ export default function App() {
                 <div className="sl" dangerouslySetInnerHTML={{ __html: l }} />
               </div>
             ))}
-          </div>
-          </div>
-          <div className="hero-photos-mobile">
-          <div className="hero-right">
-            <img
-              src={kayxPhoto}
-              className="hero-photo"
-              alt="Kayxmedia — Cinematographer"
-            />
-            <div className="hero-photo-overlay" />
-          </div>
-          <div className="hero-right-2">
-            <img
-              src={kayxPhoto2}
-              className="hero-photo-2"
-              alt="Kayxmedia — Director"
-            />
-            <div className="hero-photo-overlay-2" />
           </div>
           </div>
         </div>
