@@ -18,10 +18,10 @@ import { useState, useEffect } from "react";
    4. Copy TEMPLATE_ID + PUBLIC_KEY → paste below
 ═══════════════════════════════════════════════════════════════════ */
 const BEHOLD_FEED_ID      = "bmUXFJTJv80LKNubKoJn";
-const EMAILJS_SERVICE_ID  = "service_2tmwwpl";
-const EMAILJS_TEMPLATE_ID = "template_aw3k6xg";
+const EMAILJS_SERVICE_ID  = "service_wmc7j4b";
+const EMAILJS_TEMPLATE_ID = "template_sdmxzb9";
 const EMAILJS_PUBLIC_KEY  = "UrchJkO_WRa51qjYd";
-const RECIPIENT_EMAIL     = "kayxmedia91@outlook.com";
+
 
 const GOLD  = "#b8860b";
 const GOLD2 = "#d4a017";
@@ -670,39 +670,24 @@ export default function App() {
 
   const upd = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!form.name || !form.email || !form.service) {
       setSendErr("Please fill in your name, email, and service type.");
       return;
     }
-    setSending(true); setSendErr(null);
-    try {
-      if (!window.emailjs) {
-        await new Promise((res, rej) => {
-          const s = document.createElement("script");
-          s.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
-          s.onload = res; s.onerror = rej;
-          document.head.appendChild(s);
-        });
-        window.emailjs.init(EMAILJS_PUBLIC_KEY);
-      }
-      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        to_email:   RECIPIENT_EMAIL,
-        from_name:  form.name,
-        from_email: form.email,
-        phone:      form.phone   || "Not provided",
-        service:    form.service,
-        date:       form.date    || "Flexible",
-        budget:     budget       || "Not specified",
-        message:    form.message || "No additional notes.",
-      });
-      setSent(true);
-    } catch (err) {
-      console.warn("EmailJS — add your keys to enable real sending:", err);
-      setSent(true); // Demo mode: shows success screen regardless
-    } finally {
-      setSending(false);
-    }
+    const msg =
+      `Hi Kayxmedia! 👋 I'd like to book a session.\n\n` +
+      `*Name:* ${form.name}\n` +
+      `*Email:* ${form.email}\n` +
+      `*Phone:* ${form.phone || "Not provided"}\n` +
+      `*Service:* ${form.service}\n` +
+      `*Preferred Date:* ${form.date || "Flexible"}\n` +
+      `*Budget:* ${budget || "Not specified"}\n` +
+      `*Message:* ${form.message || "No additional notes."}`;
+
+    const url = `https://wa.me/233597617967?text=${encodeURIComponent(msg)}`;
+    window.open(url, "_blank");
+    setSent(true);
   };
 
   const scrollTo = (id) => {
@@ -891,7 +876,7 @@ export default function App() {
                 <div className="avail-val" style={{ fontSize: 16 }}>Within 24 hours</div>
               </div>
               <div className="contact-rows">
-                <div className="crow"><span className="crow-icon">📧</span> aaronyankson91@gmail.com</div>
+                <div className="crow"><span className="crow-icon">💬</span> WhatsApp: +233 597 617 967</div>
                 <div className="crow"><span className="crow-icon">📸</span> @kayxmedia_ on Instagram</div>
                 <div className="crow"><span className="crow-icon">🎵</span> @n.kayx on TikTok</div>
                 <div className="crow"><span className="crow-icon">📍</span> Shooting worldwide</div>
@@ -902,11 +887,11 @@ export default function App() {
             {sent ? (
               <div className="success-wrap">
                 <div className="success-icon">✅</div>
-                <h3>Message Sent!</h3>
+                <h3>Opening WhatsApp!</h3>
                 <p>
-                  Thank you, <strong>{form.name}</strong>. Your inquiry has been sent to{" "}
-                  <strong>aaronyankson91@gmail.com</strong>. I'll review your project
-                  details and reply within 24 hours.
+                  Your booking details are pre-filled and ready to send on WhatsApp.
+                  If it didn't open automatically,{" "}
+                  <a href="https://wa.me/233597617967" target="_blank" rel="noreferrer" style={{color:"#b8860b"}}>click here</a>.
                 </p>
                 <button onClick={() => scrollTo("works")} className="btn-gold" style={{ marginTop: 8 }}>View Portfolio →</button>
               </div>
@@ -970,7 +955,7 @@ export default function App() {
                   <span>{sending ? "Sending…" : "Send Inquiry"}</span>
                   <span>{sending ? "⏳" : "✦"}</span>
                 </button>
-                <p className="form-note">Sent directly to aaronyankson91@gmail.com</p>
+                <p className="form-note">You'll be redirected to WhatsApp to send your booking</p>
               </div>
             )}
           </div>
@@ -1077,7 +1062,7 @@ export default function App() {
                 <li><a onClick={(e) => { e.preventDefault(); scrollTo("booking"); }} href="#">Book a Shoot</a></li>
                 <li><a onClick={(e) => { e.preventDefault(); scrollTo("booking"); }} href="#">Brand Partnerships</a></li>
                 <li><a onClick={(e) => { e.preventDefault(); scrollTo("booking"); }} href="#">Press Inquiries</a></li>
-                <li><a href="mailto:aaronyankson91@gmail.com">aaronyankson91@gmail.com</a></li>
+                <li><a href="https://wa.me/233597617967" target="_blank" rel="noreferrer">WhatsApp: +233 597 617 967</a></li>
               </ul>
             </div>
           </div>
