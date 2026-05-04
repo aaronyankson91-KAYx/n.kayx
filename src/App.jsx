@@ -19,7 +19,7 @@ import { useState, useEffect } from "react";
 ═══════════════════════════════════════════════════════════════════ */
 const BEHOLD_FEED_ID      = "bmUXFJTJv80LKNubKoJn";
 const EMAILJS_SERVICE_ID  = "service_2tmwwpl";
-const EMAILJS_TEMPLATE_ID = "template_sdmxzb9";
+const EMAILJS_TEMPLATE_ID = "template_aw3k6xg";
 const EMAILJS_PUBLIC_KEY  = "UrchJkO_WRa51qjYd";
 const RECIPIENT_EMAIL     = "kayxmedia91@outlook.com";
 
