@@ -476,14 +476,43 @@ behold-widget {
 }
 
 /* ── BOOKING ─────────────────────────────────────────────────── */
-#booking { background: #fff; }
-.bk-wrap { max-width: 1200px; margin: 0 auto; }
+#booking {
+  background: #111;
+  position: relative;
+  overflow: hidden;
+}
+.bk-bg {
+  position: absolute; inset: 0; z-index: 0;
+}
+.bk-bg-img {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: brightness(0.22) contrast(1.1) grayscale(15%);
+}
+.bk-bg-overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(135deg, rgba(5,5,5,.75) 0%, rgba(10,10,10,.55) 60%, rgba(5,5,5,.8) 100%),
+    linear-gradient(to top, rgba(5,5,5,.9) 0%, transparent 50%);
+}
+/* grain texture */
+.bk-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.35; pointer-events: none;
+}
+.bk-wrap { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+#booking .sec-title { color: #f5f4f2; }
+#booking .sec-label { color: #888; }
+#booking .sec-label::before { background: #888; }
 .bk-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; margin-top: 60px; align-items: start; }
-.bk-aside h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; margin-bottom: 14px; }
-.bk-aside p { font-size: 14px; color: #666; line-height: 1.85; margin-bottom: 32px; }
-.avail-box { padding: 22px 24px; background: #ffffff; border-left: 3px solid ${GOLD}; margin-bottom: 12px; }
+.bk-aside h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; margin-bottom: 14px; color: #f0ede8; }
+.bk-aside p { font-size: 14px; color: rgba(220,216,208,.65); line-height: 1.85; margin-bottom: 32px; }
+.avail-box { padding: 22px 24px; background: rgba(255,255,255,.07); border-left: 3px solid ${GOLD}; margin-bottom: 12px; backdrop-filter: blur(8px); }
 .avail-tag { font-size: 9px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: ${GOLD}; margin-bottom: 6px; }
-.avail-val { font-size: 17px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+.avail-val { font-size: 17px; font-weight: 500; display: flex; align-items: center; gap: 8px; color: #f0ede8; }
 .dot-live {
   width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
   animation: pulse 2s infinite;
@@ -493,33 +522,36 @@ behold-widget {
   50%      { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
 }
 .contact-rows { margin-top: 28px; display: flex; flex-direction: column; gap: 13px; }
-.crow { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #444; }
+.crow { display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(220,216,208,.7); }
 .crow-icon { font-size: 20px; display: flex; align-items: center; flex-shrink: 0; }
 .form-wrap { display: flex; flex-direction: column; gap: 3px; }
 .form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
 .fg { display: flex; flex-direction: column; }
 .fl {
   font-size: 9px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase;
-  color: #999; padding: 14px 18px 0; background: #ffffff;
+  color: rgba(200,196,188,.6); padding: 14px 18px 0; background: rgba(255,255,255,.08);
+  backdrop-filter: blur(12px);
 }
 .fi, .fsel, .fta {
-  background: #ffffff; border: none; border-bottom: 2px solid transparent;
+  background: rgba(255,255,255,.08); border: none; border-bottom: 2px solid transparent;
   padding: 8px 18px 16px;
-  font-family: 'DM Sans', sans-serif; font-size: 15px; color: #111;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; color: #f0ede8;
   outline: none; transition: border-color .2s, background .2s;
-  -webkit-appearance: none;
+  -webkit-appearance: none; backdrop-filter: blur(12px);
 }
-.fi:focus, .fsel:focus, .fta:focus { border-bottom-color: ${GOLD}; background: #ebe7df; }
+.fi::placeholder { color: rgba(200,196,188,.35); }
+.fta::placeholder { color: rgba(200,196,188,.35); }
+.fi:focus, .fsel:focus, .fta:focus { border-bottom-color: ${GOLD}; background: rgba(255,255,255,.13); }
 .fsel { cursor: pointer; }
-option { background: #ffffff; }
+option { background: #1a1a1a; color: #f0ede8; }
 .fta { resize: none; height: 130px; line-height: 1.6; }
 .budget-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; }
 .bopt {
-  padding: 16px 8px; background: #ffffff; text-align: center; cursor: pointer;
-  font-size: 11px; font-weight: 600; letter-spacing: .1em; color: #888;
-  border: 2px solid transparent; transition: all .2s;
+  padding: 16px 8px; background: rgba(255,255,255,.07); text-align: center; cursor: pointer;
+  font-size: 11px; font-weight: 600; letter-spacing: .1em; color: rgba(200,196,188,.6);
+  border: 2px solid rgba(255,255,255,.1); transition: all .2s; backdrop-filter: blur(8px);
 }
-.bopt.sel, .bopt:hover { background: #555555; color: #ffffff; border-color: #555555; }
+.bopt.sel, .bopt:hover { background: ${GOLD}; color: #ffffff; border-color: ${GOLD}; }
 .fsub {
   margin-top: 6px; padding: 20px;
   background: #333333; color: #111111;
@@ -536,12 +568,16 @@ option { background: #ffffff; }
 .fsub:hover::before { transform: scaleX(1); }
 .fsub > * { position: relative; z-index: 1; }
 .fsub:disabled { opacity: .55; cursor: not-allowed; }
-.form-note { font-size: 11px; color: #aaa; margin-top: 8px; text-align: center; letter-spacing: .05em; }
+.form-note { font-size: 11px; color: rgba(180,176,168,.5); margin-top: 8px; text-align: center; letter-spacing: .05em; }
 .err-box { padding: 12px 18px; background: #fff0f0; border: 1px solid #fca5a5; color: #b91c1c; font-size: 13px; }
 .success-wrap {
-  padding: 80px 48px; background: #ffffff;
+  padding: 80px 48px; background: rgba(255,255,255,.07);
+  backdrop-filter: blur(16px);
   text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px;
+  color: #f0ede8;
 }
+.success-wrap h3 { color: #f0ede8; }
+.success-wrap p { color: rgba(220,216,208,.7); }
 .success-icon { font-size: 60px; animation: popIn .5s ease both; }
 @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
 .success-wrap h3 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; }
@@ -918,6 +954,11 @@ export default function App() {
 
       {/* ── BOOKING ── */}
       <section id="booking">
+        {/* Full-bleed background photo */}
+        <div className="bk-bg">
+          <img src={kayxPhoto} className="bk-bg-img" alt="" aria-hidden="true" />
+          <div className="bk-bg-overlay" />
+        </div>
         <div className="bk-wrap">
           <div className="sec-label">Let's Collaborate</div>
           <h2 className="sec-title">Book a <em>Shoot</em></h2>
