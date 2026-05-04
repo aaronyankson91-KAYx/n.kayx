@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import kayxPhoto from "./kayxphoto.jpg";
 
 /* ═══════════════════════════════════════════════════════════════════
    📸  BEHOLD.SO SETUP — Connect @kayxmedia_ Instagram feed
@@ -126,7 +127,7 @@ body {
 /* ── HERO ────────────────────────────────────────────────────── */
 .hero {
   min-height: 100vh; background: #f5f4f2;
-  display: flex; align-items: flex-end;
+  display: flex; align-items: stretch;
   position: relative; overflow: hidden;
 }
 .hero-grid {
@@ -154,7 +155,26 @@ body {
 }
 .hero-content {
   position: relative; z-index: 2;
-  padding: 0 64px 90px; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr;
+  width: 100%; min-height: 100vh;
+}
+.hero-left {
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 64px 90px;
+}
+.hero-right {
+  position: relative; overflow: hidden;
+}
+.hero-photo {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: grayscale(8%) contrast(1.02);
+}
+.hero-photo-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, #f5f4f2 0%, transparent 18%),
+              linear-gradient(to top, #f5f4f2 0%, transparent 15%);
 }
 .hero-eyebrow {
   font-size: 10px; font-weight: 700; letter-spacing: .55em; text-transform: uppercase;
@@ -251,6 +271,11 @@ body {
   padding: 0 44px; display: flex; align-items: center; gap: 44px;
 }
 .ti span { color: ${GOLD}; font-size: 16px; }
+@media (max-width: 768px) {
+  .hero-content { grid-template-columns: 1fr; }
+  .hero-right { height: 55vw; min-height: 260px; }
+  .hero-left { padding: 0 24px 60px; }
+}
 @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* ── SHARED SECTION ──────────────────────────────────────────── */
@@ -719,6 +744,7 @@ export default function App() {
         <div className="hero-glow" />
         <div className="hero-glow2" />
         <div className="hero-content">
+          <div className="hero-left">
           <div className="hero-eyebrow">Videographer · Creator · @kayxmedia_ · @n.kayx</div>
           <h1 className="hero-h1">
             KAYX<span className="gold">✦</span><br />
@@ -747,6 +773,15 @@ export default function App() {
                 <div className="sl" dangerouslySetInnerHTML={{ __html: l }} />
               </div>
             ))}
+          </div>
+          </div>
+          <div className="hero-right">
+            <img
+              src={kayxPhoto}
+              className="hero-photo"
+              alt="Kayxmedia — Cinematographer"
+            />
+            <div className="hero-photo-overlay" />
           </div>
         </div>
         <div className="hero-scroll">
