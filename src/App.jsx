@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import kayxPhoto from "./kayxphoto.jpg";
+import kayxPhoto2 from "./kayxphoto2.png";
 
 /* ═══════════════════════════════════════════════════════════════════
    📸  BEHOLD.SO SETUP — Connect @kayxmedia_ Instagram feed
@@ -155,14 +156,17 @@ body {
 }
 .hero-content {
   position: relative; z-index: 2;
-  display: grid; grid-template-columns: 1fr 1fr;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
   width: 100%; min-height: 100vh;
 }
 .hero-left {
   display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 0 64px 90px;
+  padding: 0 48px 90px;
 }
 .hero-right {
+  position: relative; overflow: hidden;
+}
+.hero-right-2 {
   position: relative; overflow: hidden;
 }
 .hero-photo {
@@ -171,11 +175,22 @@ body {
   display: block;
   filter: grayscale(8%) contrast(1.02);
 }
+.hero-photo-2 {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center top;
+  display: block;
+}
 .hero-photo-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to right, #f5f4f2 0%, transparent 18%),
-              linear-gradient(to top, #f5f4f2 0%, transparent 15%);
+  background: linear-gradient(to right, #f5f4f2 0%, transparent 22%),
+              linear-gradient(to top, #f5f4f2 0%, transparent 12%);
 }
+.hero-photo-overlay-2 {
+  position: absolute; inset: 0;
+  background: linear-gradient(to left, #f5f4f2 0%, transparent 22%),
+              linear-gradient(to top, #f5f4f2 0%, transparent 12%);
+}
+.hero-photos-mobile { display: contents; }
 .hero-eyebrow {
   font-size: 10px; font-weight: 700; letter-spacing: .55em; text-transform: uppercase;
   color: ${GOLD}; margin-bottom: 22px;
@@ -272,9 +287,37 @@ body {
 }
 .ti span { color: ${GOLD}; font-size: 16px; }
 @media (max-width: 768px) {
-  .hero-content { grid-template-columns: 1fr; }
-  .hero-right { height: 55vw; min-height: 260px; }
-  .hero-left { padding: 0 24px 60px; }
+  .hero-content {
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-photos-mobile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 56vw;
+    min-height: 240px;
+    flex-shrink: 0;
+  }
+  .hero-left {
+    flex: 1;
+    padding: 36px 24px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .hero-right, .hero-right-2 {
+    height: 100%;
+  }
+  .hero-photo-overlay {
+    background: linear-gradient(to right, transparent 60%, #f5f4f2 100%),
+                linear-gradient(to bottom, rgba(245,244,242,.3) 0%, transparent 20%);
+  }
+  .hero-photo-overlay-2 {
+    background: linear-gradient(to left, transparent 60%, #f5f4f2 100%),
+                linear-gradient(to bottom, rgba(245,244,242,.3) 0%, transparent 20%);
+  }
 }
 @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
@@ -775,6 +818,7 @@ export default function App() {
             ))}
           </div>
           </div>
+          <div className="hero-photos-mobile">
           <div className="hero-right">
             <img
               src={kayxPhoto}
@@ -782,6 +826,15 @@ export default function App() {
               alt="Kayxmedia — Cinematographer"
             />
             <div className="hero-photo-overlay" />
+          </div>
+          <div className="hero-right-2">
+            <img
+              src={kayxPhoto2}
+              className="hero-photo-2"
+              alt="Kayxmedia — Director"
+            />
+            <div className="hero-photo-overlay-2" />
+          </div>
           </div>
         </div>
         <div className="hero-scroll">
