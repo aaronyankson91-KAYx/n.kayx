@@ -18,7 +18,7 @@ import { useState, useEffect } from "react";
    4. Copy TEMPLATE_ID + PUBLIC_KEY → paste below
 ═══════════════════════════════════════════════════════════════════ */
 const BEHOLD_FEED_ID      = "bmUXFJTJv80LKNubKoJn";
-const EMAILJS_SERVICE_ID  = "service_wmc7j4b";
+const EMAILJS_SERVICE_ID  = "service_2tmwwpl";
 const EMAILJS_TEMPLATE_ID = "template_sdmxzb9";
 const EMAILJS_PUBLIC_KEY  = "UrchJkO_WRa51qjYd";
 const RECIPIENT_EMAIL     = "aaronyankson91@gmail.com";
