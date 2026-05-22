@@ -30,21 +30,67 @@ const TESTIMONIALS = [
 
 const TICKER_ITEMS = ["Music Videos","Brand Films","Event Coverage","Influencer Content","UGC Creation","4K Cinema","Colour Grading","Visual Storytelling","@kayxmedia_"];
 
-const SERVICES = [
+const SHOOT_PACKAGES = [
   {
-    icon:"🎬", num:"01", name:"Cinematography",
-    desc:"4K ProRes productions with professional colour grading. From concept to delivery, every frame is intentional and crafted with precision.",
-    packages:[["Music Video Production","GH₵ 15,000+"],["Event Coverage (Full Day)","GH₵ 8,000+"],["Brand Film (30–90 sec)","GH₵ 20,000+"],["Professional Retouching","GH₵ 2,500+"]],
+    tier:"Starter", price:"GH₵ 3,500", emoji:"🎬",
+    tagline:"Perfect for individuals, upcoming artists & small brands",
+    includes:[
+      "2-hour shoot session",
+      "1 location",
+      "2 final edited deliverables",
+      "Basic colour correction",
+      "1 round of revisions",
+      "Delivery within 5 business days",
+    ],
+    bestFor:"Social media content, quick promos, personal brand visuals",
   },
   {
-    icon:"📱", num:"02", name:"Creator Collabs",
-    desc:"30K followers. 8.4% engagement. Authentic content that bridges your brand with a real, loyal, and active audience on Instagram & TikTok.",
-    packages:[["Sponsored Content (Reel+Story)","GH₵ 10,000+"],["Brand Ambassadorship","GH₵ 25,000/mo"],["UGC Package (5 Assets)","GH₵ 5,000+"],["Product Launch Campaign","GH₵ 18,000+"]],
+    tier:"Standard", price:"GH₵ 8,000", emoji:"🎥",
+    tagline:"Ideal for growing brands & serious content creators",
+    includes:[
+      "Half-day shoot (4 hours)",
+      "2 locations",
+      "5 final edited deliverables",
+      "Full professional colour grade",
+      "Licensed background music",
+      "2 rounds of revisions",
+      "Delivery within 7 business days",
+    ],
+    bestFor:"Brand campaigns, music visuals, product launches, event highlights",
+  },
+  {
+    tier:"Premium", price:"GH₵ 18,000", emoji:"💎",
+    tagline:"For brands & artists who demand the highest quality",
+    includes:[
+      "Full-day shoot (8 hours)",
+      "Multiple locations",
+      "10 final edited deliverables",
+      "Cinematic 4K colour grade",
+      "Licensed music + sound design",
+      "Drone / aerial shots (where available)",
+      "Unlimited revisions",
+      "Priority 5-day delivery",
+      "Behind-the-scenes content included",
+    ],
+    bestFor:"Full brand campaigns, music videos, commercial films, luxury product shoots",
+  },
+];
+
+const SERVICES = [
+  {
+    icon:"🎬", num:"01", name:"Video Production",
+    desc:"4K ProRes productions with professional colour grading. From concept to delivery, every frame is intentional and crafted with precision.",
+    packages:[["Music Video","GH₵ 5,000 – 15,000"],["Event Highlight","GH₵ 2,000 – 6,000"],["Brand Film (30–90 sec)","GH₵ 8,000 – 18,000"],["UGC Package (5 Assets)","GH₵ 2,500 – 5,000"]],
+  },
+  {
+    icon:"📦", num:"02", name:"Shoot Packages",
+    desc:"Three clear tiers to match your vision and budget — hover each package below to see exactly what\'s included.",
+    packages:null,
   },
   {
     icon:"✨", num:"03", name:"Full Campaign",
-    desc:"Cinematic production combined with influencer distribution. One creative vision, maximum reach, measurable results from end to end.",
-    packages:[["Campaign Strategy + Concept","GH₵ 7,500+"],["Full Production + Post","GH₵ 32,000+"],["Distribution + Promotion","GH₵ 12,000+"],["Analytics Report","GH₵ 2,000+"]],
+    desc:"Cinematic production combined with influencer distribution. One creative vision, maximum reach, measurable results.",
+    packages:[["Brand / Product Shoot","GH₵ 3,500 – 8,000"],["Brand Campaign (Full)","GH₵ 15,000 – 35,000"],["Sponsored Content (Reel + Story)","GH₵ 5,000 – 10,000"],["Brand Ambassadorship","GH₵ 15,000/mo"],["Real Estate Film","Let\'s Talk →"]],
   },
 ];
 
@@ -553,6 +599,66 @@ footer { background:#111110; color:rgba(220,218,214,.6); padding:80px 64px; }
 }
 `;
 
+/* ─── SHOOT PACKAGE CARD ────────────────────────────────────────── */
+function ShootPackageCard({ pkg, navigate }) {
+  const [hovered, setHovered] = useState(false);
+  const colors = { Starter:"#555", Standard:"#333", Premium:"#111" };
+  const accentColor = colors[pkg.tier] || "#555";
+  return (
+    <div
+      onMouseEnter={()=>setHovered(true)}
+      onMouseLeave={()=>setHovered(false)}
+      style={{
+        position:"relative", overflow:"hidden",
+        background: hovered ? accentColor : "#f5f4f2",
+        border:`2px solid ${hovered ? accentColor : "#e8e4dc"}`,
+        padding: hovered ? "22px 20px" : "16px 20px",
+        transition:"all .35s cubic-bezier(.16,1,.3,1)",
+        cursor:"pointer",
+      }}
+      onClick={()=>navigate("booking")}
+    >
+      {!hovered && (
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <div style={{display:"flex",alignItems:"center",gap:10}}>
+            <span style={{fontSize:22}}>{pkg.emoji}</span>
+            <div>
+              <div style={{fontSize:14,fontWeight:700,color:"#111",letterSpacing:".02em"}}>{pkg.tier}</div>
+              <div style={{fontSize:11,color:"#888",marginTop:2}}>{pkg.tagline}</div>
+            </div>
+          </div>
+          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:900,color:accentColor,whiteSpace:"nowrap"}}>{pkg.price}</div>
+        </div>
+      )}
+      {hovered && (
+        <div style={{color:"#fff"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:14}}>
+            <div>
+              <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:28,letterSpacing:".06em",lineHeight:1}}>{pkg.tier}</div>
+              <div style={{fontSize:11,opacity:.65,marginTop:3,letterSpacing:".05em"}}>{pkg.tagline}</div>
+            </div>
+            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:26,fontWeight:900,color:"rgba(255,255,255,.9)"}}>{pkg.price}</div>
+          </div>
+          <ul style={{listStyle:"none",display:"flex",flexDirection:"column",gap:6,marginBottom:14}}>
+            {pkg.includes.map((item,i)=>(
+              <li key={i} style={{fontSize:12,display:"flex",gap:8,alignItems:"flex-start",opacity:.9}}>
+                <span style={{color:"rgba(255,255,255,.5)",marginTop:1,flexShrink:0}}>&#10003;</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <div style={{borderTop:"1px solid rgba(255,255,255,.15)",paddingTop:10,fontSize:11,opacity:.6}}>
+            <strong style={{opacity:1,color:"#fff"}}>Best for:</strong> {pkg.bestFor}
+          </div>
+          <div style={{marginTop:12,fontSize:11,fontWeight:700,letterSpacing:".18em",textTransform:"uppercase",opacity:.8}}>
+            Book this package &rarr;
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ─── BOOKING PAGE ──────────────────────────────────────────────── */
 function BookingPage({ onNavigate }) {
   const [budget, setBudget]   = useState(null);
@@ -642,20 +748,23 @@ function BookingPage({ onNavigate }) {
                   <div className="fl">Service Type *</div>
                   <select className="fsel" value={form.service} onChange={e=>upd("service",e.target.value)}>
                     <option value="">Select a service…</option>
-                    <option>Music Video Production</option>
-                    <option>Event Coverage</option>
-                    <option>Brand Film</option>
-                    <option>Sponsored Content</option>
-                    <option>Brand Ambassadorship</option>
-                    <option>UGC Package</option>
-                    <option>Full Campaign</option>
-                    <option>Other</option>
+                    <option>Starter Package — GH₵ 3,500</option>
+                    <option>Standard Package — GH₵ 8,000</option>
+                    <option>Premium Package — GH₵ 18,000</option>
+                    <option>Music Video — GH₵ 5,000–15,000</option>
+                    <option>Event Highlight — GH₵ 2,000–6,000</option>
+                    <option>Brand / Product Shoot — GH₵ 3,500–8,000</option>
+                    <option>UGC Package (5 Assets) — GH₵ 2,500–5,000</option>
+                    <option>Brand Campaign (Full) — GH₵ 15,000–35,000</option>
+                    <option>Sponsored Content — GH₵ 5,000–10,000</option>
+                    <option>Brand Ambassadorship — GH₵ 15,000/mo</option>
+                    <option>Custom / Let's Talk</option>
                   </select>
                 </div>
                 <div className="fg">
                   <div className="fl">Budget Range</div>
                   <div className="budget-grid">
-                    {["GH₵ 3K–8K","GH₵ 8K–20K","GH₵ 20K–50K","GH₵ 50K–100K","GH₵ 100K+","Let's Talk"].map(b=>(
+                    {["GH₵ 2K–5K","GH₵ 5K–10K","GH₵ 10K–20K","GH₵ 20K–35K","GH₵ 35K+","Let's Talk"].map(b=>(
                       <div key={b} className={`bopt${budget===b?" sel":""}`} onClick={()=>setBudget(b)}>{b}</div>
                     ))}
                   </div>
@@ -937,11 +1046,28 @@ export default function App() {
                 <span className="srv-icon">{s.icon}</span>
                 <div className="srv-name">{s.name}</div>
                 <div className="srv-desc">{s.desc}</div>
-                <ul className="pkg-list">
-                  {s.packages.map(([n,p])=>(
-                    <li key={n} className="pkg"><span>{n}</span><span className="pkg-price">{p}</span></li>
-                  ))}
-                </ul>
+                {s.packages ? (
+                  <ul className="pkg-list">
+                    {s.packages.map(([n,p])=>(
+                      <li key={n} className="pkg">
+                        <span>{n}</span>
+                        <span className="pkg-price" style={p==="Let\'s Talk →"?{color:"#333",fontSize:13,fontWeight:700,letterSpacing:".1em"}:{}}>{p}</span>
+                      </li>
+                    ))}
+                    {i===2 && (
+                      <li style={{marginTop:16,padding:"14px 16px",background:"#f9f7f4",borderLeft:"3px solid #888",fontSize:13,color:"#666",lineHeight:1.75}}>
+                        <span><strong style={{color:"#333",display:"block",marginBottom:4}}>📐 Real Estate Film — pricing depends on:</strong>
+                        Property size &amp; number of rooms · Indoor/outdoor scope · Drone requirements · Styling &amp; staging needed · Turnaround time · Usage (listing, social, commercial)</span>
+                      </li>
+                    )}
+                  </ul>
+                ) : (
+                  <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                    {SHOOT_PACKAGES.map((pkg,j)=>(
+                      <ShootPackageCard key={j} pkg={pkg} navigate={navigate} />
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
